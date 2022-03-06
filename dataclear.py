@@ -10,9 +10,9 @@ elif platform == 'Linux':
     if hasattr(sys, 'getandroidapilevel'):
         adb = 'adb'
         print('Termux의 초기 설정을 시작합니다.')
-        t.Popen('pkg update && pkg upgrade', shell=True)
-        t.Popen('pkg install fakeroot', shell=True)
-        t.Popen('pkg install android-tools', shell=True)
+        t.Popen('pkg update && pkg upgrade', shell=True).wait(timeout=None)
+        t.Popen('pkg install fakeroot', shell=True).wait(timeout=None)
+        t.Popen('pkg install android-tools', shell=True).wait(timeout=None)
         print('Termux 초기 설정이 완료되었습니다.\n')
     else:
         adb = './adb_linux'
