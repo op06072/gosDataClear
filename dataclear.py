@@ -16,14 +16,15 @@ elif platform == 'Linux':
         print('Termux 초기 설정이 완료되었습니다.\n')
 
         while True:
-            print('화면분할로 설정앱을 띄우세요.\n설정앱에서 개발자 옵션을 띄우세요.')
-            print('무선 디버깅을 찾아 활성화하신 후 들어가주세요.\n 페어링 코드로 기기 페어링을 눌러주세요.')
-            ip = input('termux 창을 다시 누른 후 IP 주소 및 포트 아래 내용을 그대로 입력해주세요.\n')
-            paircode = input('Wi-Fi 페어링 코드라고 적힌 부분의 아래 6자리 숫자를 입력해주세요.')
+            print("화면분할로 설정앱을 띄우세요.\n'설정' 앱에서 '개발자 옵션'을 띄우세요.")
+            print("무선 디버깅을 찾아 활성화하신 후 들어가주세요.\n'페어링 코드로 기기 페어링'을 눌러주세요.")
+            ip = input("termux 창을 다시 누른 후 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
+            paircode = input("'Wi-Fi 페어링 코드'라고 적힌 부분의 아래 6자리 숫자를 입력해주세요.\n")
             if input('위의 설정을 완료하셨습니까? (y/n) ') in ['y', 'Y', 'yes', 'Yes', 'YES']:
                 t.Popen(f'fakeroot adb pair {ip} {paircode}', shell=True).wait(timeout=None)
-                ip = input('설정창에 보이는 IP 주소 및 포트 아래 내용을 그대로 입력해주세요.\n')
+                ip = input("설정창에 보이는 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
                 t.Popen(f'fakeroot adb connect {ip}', shell=True).wait(timeout=None)
+                break
             else:
                 print('위의 설정을 완료해주세요.')
     else:
