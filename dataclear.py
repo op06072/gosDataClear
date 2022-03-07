@@ -93,7 +93,7 @@ if ver == '1':
                     break
                 else:
                     print('Wi-Fi를 꺼주세요.')
-            t.Popen(f'{adb} reboot', shell=True, stdout=t.PIPE).stdout.read()
+            t.Popen(f'{adb} "svc wifi disable && reboot"', shell=True, stdout=t.PIPE).stdout.read()
             print('재부팅 시작')
         else:
             print('재부팅 취소')
