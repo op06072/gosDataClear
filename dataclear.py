@@ -10,9 +10,9 @@ elif platform == 'Linux':
     if hasattr(sys, 'getandroidapilevel'):
         adb = 'fakeroot adb'
         print('Termux의 초기 설정을 시작합니다.')
-        t.Popen('pkg update && pkg upgrade', shell=True).wait(timeout=None)
-        t.Popen('pkg install fakeroot', shell=True).wait(timeout=None)
-        t.Popen('pkg install android-tools', shell=True).wait(timeout=None)
+        t.Popen('pkg update && apt upgrade -y', shell=True).wait(timeout=None)
+        t.Popen('apt install -y fakeroot', shell=True).wait(timeout=None)
+        t.Popen('apt install -y android-tools', shell=True).wait(timeout=None)
         print('Termux 초기 설정이 완료되었습니다.\n')
 
         while True:
@@ -21,9 +21,9 @@ elif platform == 'Linux':
             ip = input("termux 창을 다시 누른 후 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
             paircode = input("'Wi-Fi 페어링 코드'라고 적힌 부분의 아래 6자리 숫자를 입력해주세요.\n")
             if input('위의 설정을 완료하셨습니까? (y/n) ') in ['y', 'Y', 'yes', 'Yes', 'YES']:
-                t.Popen(f'fakeroot adb pair {ip} {paircode}', shell=True).wait(timeout=None)
+                t.Popen(f'{adb} pair {ip} {paircode}', shell=True).wait(timeout=None)
                 ip = input("설정창에 보이는 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
-                t.Popen(f'fakeroot adb connect {ip}', shell=True).wait(timeout=None)
+                t.Popen(f'{adb} connect {ip}', shell=True).wait(timeout=None)
                 break
             else:
                 print('위의 설정을 완료해주세요.')
@@ -87,6 +87,12 @@ if ver == '1':
                         print(f'{curses[app]} cleared')
 
         if input('기기를 지금 재부팅 하시겠습니까? (y/n)') in ['y', 'Y', 'yes', 'Yes', 'YES']:
+            print('Wi-Fi를 꺼주세요.')
+            while True:
+                if input('Wi-Fi를 비활성화 하셨습니까? (y/n)') in ['y', 'Y', 'yes', 'Yes', 'YES']:
+                    break
+                else:
+                    print('Wi-Fi를 꺼주세요.')
             t.Popen(f'{adb} reboot', shell=True, stdout=t.PIPE).stdout.read()
             print('재부팅 시작')
         else:
