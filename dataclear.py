@@ -13,8 +13,6 @@ elif platform == 'Linux':
         t.Popen('pkg update && apt upgrade -y', shell=True).wait(timeout=None)
         t.Popen('apt install -y fakeroot', shell=True).wait(timeout=None)
         t.Popen('apt install -y android-tools', shell=True).wait(timeout=None)
-        t.Popen('export ADB_SERVER_SOCKET=localfilesystem:/data/data/com.termux/files/adb_socket', shell=True).wait(timeout=None)
-        t.Popen('export ANDROID_NO_USE_FWMARK_CLIENT=1', shell=True).wait(timeout=None)
         print('Termux 초기 설정이 완료되었습니다.\n')
 
         while True:
