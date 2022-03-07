@@ -13,12 +13,14 @@ elif platform == 'Linux':
         t.Popen('pkg update && apt upgrade -y', shell=True).wait(timeout=None)
         t.Popen('apt install -y fakeroot', shell=True).wait(timeout=None)
         t.Popen('apt install -y android-tools', shell=True).wait(timeout=None)
+        t.Popen('export ADB_SERVER_SOCKET=localfilesystem:/data/data/com.termux/files/adb_socket', shell=True).wait(timeout=None)
+        t.Popen('export ANDROID_NO_USE_FWMARK_CLIENT=1', shell=True).wait(timeout=None)
         print('Termux 초기 설정이 완료되었습니다.\n')
 
         while True:
-            print("화면분할로 설정앱을 띄우세요.\n'설정' 앱에서 '개발자 옵션'을 띄우세요.")
-            print("무선 디버깅을 찾아 활성화하신 후 들어가주세요.\n'페어링 코드로 기기 페어링'을 눌러주세요.")
-            ip = input("termux 창을 다시 누른 후 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
+            print("1. 화면분할로 설정앱을 띄우세요.\n2. '설정' 앱에서 '개발자 옵션'을 띄우세요.")
+            print("3. 무선 디버깅을 찾아 활성화하신 후 들어가주세요.\n4. '페어링 코드로 기기 페어링'을 눌러주세요.")
+            ip = input("5. termux 창을 다시 누른 후 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
             paircode = input("'Wi-Fi 페어링 코드'라고 적힌 부분의 아래 6자리 숫자를 입력해주세요.\n")
             if input('위의 설정을 완료하셨습니까? (y/n) ') in ['y', 'Y', 'yes', 'Yes', 'YES']:
                 t.Popen(f'{adb} pair {ip} {paircode}', shell=True).wait(timeout=None)
