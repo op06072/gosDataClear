@@ -23,7 +23,7 @@ elif platform == 'Linux':
             if input('위의 설정을 완료하셨습니까? (y/n) ') in ['y', 'Y', 'yes', 'Yes', 'YES']:
                 t.Popen(f'fakeroot adb pair {ip} {paircode}', shell=True).wait(timeout=None)
                 ip = input('설정창에 보이는 IP 주소 및 포트 아래 내용을 그대로 입력해주세요.\n')
-                t.Popen(f'fakeroot adb connect {ip}')
+                t.Popen(f'fakeroot adb connect {ip}', shell=True).wait(timeout=None)
             else:
                 print('위의 설정을 완료해주세요.')
     else:
