@@ -133,7 +133,7 @@ for i in devices:
         print('\n' + theCursedOnes[cursedOne] + '의 작업시작\n')
 
         for curse in curses:
-            t.Popen("f{adb} shell pm disable-user --user 0 com.samsung.android.game.{curse}", shell=True).wait(timeout=None)
+            t.Popen(f"{adb} shell pm disable-user --user 0 com.samsung.android.game.{curse}", shell=True).wait(timeout=None)
             print(f'{curse} 비활성화')
 
         print('\n' + theCursedOnes[cursedOne] + '의 작업완료\n')
