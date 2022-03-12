@@ -15,14 +15,9 @@ elif platform == 'Linux':
         t.Popen('apt install -y android-tools', shell=True).wait(timeout=None)
         print('Termux 초기 설정이 완료되었습니다.\n')
 
-        onADB = t.Popen(['fakeroot', 'adb', 'devices'], stdout=t.PIPE).wait(timeout=None)
-        onADB = onADB.stdout.read().split()
-        for i in [b'List', b'of', b'devices', b'attached', b'daemon', b'not', b'running;',
-                  b'starting', b'now', b'at', b'localfilesystem:/data/data/com.termux/files/adb_socket', b'*',
-                  b'started', b'successfully']:
-            if i in onADB:
-                onADB.remove(i)
-        if len(onADB) == 0:
+        onADB = t.check_output(['fakeroot', 'adb', 'devices'])
+        onADB = onADB.stdout.splitlines()
+        if len(onADB) <= 2:
             while True:
                 print("1. 화면분할로 설정앱을 띄우세요.\n2. '설정' 앱에서 '개발자 옵션'을 띄우세요.")
                 print("3. 무선 디버깅을 찾아 활성화하신 후 들어가주세요.\n4. '페어링 코드로 기기 페어링'을 눌러주세요.")
