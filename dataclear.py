@@ -70,15 +70,17 @@ for i in devices:
                 f"{adb} -s " + device + " shell getprop ro.product.model", shell=True, stdout=t.PIPE
             ).stdout.read().decode('utf-8').splitlines()[0]
 
-    if ver == '1':
-        print(f'\n선행 작업이 필요합니다. automate에서 선행작업을 완료해주세요.')
+    adb += ' shell'
 
-        while True:
-            pre = input('선행작업을 완료하였습니까? (y/n)')
-            if pre in ['y', 'Y', 'yes', 'Yes', 'YES']:
-                break
-            else:
-                print('선행작업을 완료해주세요.')
+    if ver == '1':
+        #print(f'\n선행 작업이 필요합니다. automate에서 선행작업을 완료해주세요.')
+
+        #while True:
+            #pre = input('선행작업을 완료하였습니까? (y/n)')
+            #if pre in ['y', 'Y', 'yes', 'Yes', 'YES']:
+                #break
+            #else:
+                #print('선행작업을 완료해주세요.')
 
         for cursedOne in theCursedOnes:
             print('\n' + theCursedOnes[cursedOne] + '의 작업시작\n')
@@ -86,18 +88,18 @@ for i in devices:
             if len(devices)/2:
                 base = 'com.samsung.android.game.'
                 for app in curses.keys():
-                    exist = t.Popen(f'{adb} shell pm list packages {base}{app}', shell=True, stdout=t.PIPE).stdout.read().split()
+                    exist = t.Popen(f'{adb} pm list packages {base}{app}', shell=True, stdout=t.PIPE).stdout.read().split()
                     if len(exist):
-                        clear = t.Popen(f'{adb} shell pm clear {base}{app}', shell=True, stdout=t.PIPE).stdout.read().split()
+                        clear = t.Popen(f'{adb} pm clear {base}{app}', shell=True, stdout=t.PIPE).stdout.read().split()
                         if clear[0] == b'Success':
                             print(f'{curses[app]} cleared')
 
             if input('기기를 지금 재부팅 하시겠습니까? (y/n)') in ['y', 'Y', 'yes', 'Yes', 'YES']:
-                while True:
-                    if input('Wi-Fi를 비활성화 하셨습니까? (y/n)') in ['y', 'Y', 'yes', 'Yes', 'YES']:
-                        break
-                    else:
-                        print('Wi-Fi를 꺼주세요.')
+                #while True:
+                    #if input('Wi-Fi를 비활성화 하셨습니까? (y/n)') in ['y', 'Y', 'yes', 'Yes', 'YES']:
+                        #break
+                    #else:
+                        #print('Wi-Fi를 꺼주세요.')
                 t.Popen(f'{adb} "svc data disable && reboot && svc wifi disable"', shell=True, stdout=t.PIPE).stdout.read()
                 print('재부팅 시작')
             else:
@@ -107,11 +109,11 @@ for i in devices:
 
             if input('기기 재부팅 후 잠금화면 해제 전에 엔터를 입력해주세요.') == '':
                 while True:
-                    gamelauncherkill = t.Popen(f'{adb} shell ps | grep com.samsung.android.game', shell=True, stdout=t.PIPE).stdout.read().split()
+                    gamelauncherkill = t.Popen(f'{adb} ps | grep com.samsung.android.game', shell=True, stdout=t.PIPE).stdout.read().split()
                     if len(gamelauncherkill):
                         for i in range(8, len(gamelauncherkill), 9):
                             i = gamelauncherkill[i].decode()
-                            gamelauncherkill = t.Popen(f'{adb} shell am force-stop {i}', shell=True, stdout=t.PIPE).stdout.read().split()
+                            gamelauncherkill = t.Popen(f'{adb} am force-stop {i}', shell=True, stdout=t.PIPE).stdout.read().split()
                             appname = curses[i.split('.')[-1]]
                             print(f'{appname} 종료')
                         break
@@ -119,11 +121,11 @@ for i in devices:
             if input('잠금화면 해제 후에 게임런처 아이콘을 보신 후 엔터를 입력해주세요.') == '':
                 print('게임런처는 계속 다시 실행되니 되도록 게임런처 아이콘을 길게 눌러서 사용중지를 눌러 비활성화 하시길 바랍니다.')
                 while True:
-                    gamelauncherkill = t.Popen(f'{adb} shell ps | grep com.samsung.android.game', shell=True, stdout=t.PIPE).stdout.read().split()
+                    gamelauncherkill = t.Popen(f'{adb} ps | grep com.samsung.android.game', shell=True, stdout=t.PIPE).stdout.read().split()
                     if len(gamelauncherkill):
                         for i in range(8, len(gamelauncherkill), 9):
                             i = gamelauncherkill[i].decode()
-                            gamelauncherkill = t.Popen(f'{adb} shell am force-stop {i}', shell=True, stdout=t.PIPE).stdout.read().split()
+                            gamelauncherkill = t.Popen(f'{adb} am force-stop {i}', shell=True, stdout=t.PIPE).stdout.read().split()
                             appname = curses[i.split('.')[-1]]
                             print(f'{appname} 종료')
                         break
@@ -133,7 +135,7 @@ for i in devices:
         print('\n' + theCursedOnes[cursedOne] + '의 작업시작\n')
 
         for curse in curses:
-            t.Popen(f"{adb} shell pm disable-user --user 0 com.samsung.android.game.{curse}", shell=True).wait(timeout=None)
+            t.Popen(f"{adb} pm disable-user --user 0 com.samsung.android.game.{curse}", shell=True).wait(timeout=None)
             print(f'{curse} 비활성화')
 
         print('\n' + theCursedOnes[cursedOne] + '의 작업완료\n')
