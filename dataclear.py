@@ -35,12 +35,8 @@ elif platform == 'Linux':
 elif platform == 'Darwin':
     adb = './adb_mac'
 
-devices = t.Popen(f"{adb} devices", shell=True, stdout=t.PIPE).stdout.read().split()
-for i in [b'List', b'of', b'devices', b'attached', b'daemon', b'not', b'running;',
-          b'starting', b'now', b'at', b'localfilesystem:/data/data/com.termux/files/adb_socket', b'*',
-          b'started', b'successfully', b'']:
-    if i in devices:
-        devices.remove(i)
+devices = t.Popen(f"{adb} devices", shell=True, stdout=t.PIPE).stdout.read().splilines()
+devices = [i.decode('utf-8').split('\t')[0] for i in devices[1:-1]]
 
 print('해제하시려는 기기의 One UI 버전이 필요합니다. 안내에 따라 One UI 버전을 확인하여 입력해주세요.')
 print('1. 설정앱에 들어갑니다.\n2. 가장 아래로 내려 휴대전화 정보에 들어갑니다.')
