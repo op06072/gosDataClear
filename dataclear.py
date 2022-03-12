@@ -15,18 +15,26 @@ elif platform == 'Linux':
         t.Popen('apt install -y android-tools', shell=True).wait(timeout=None)
         print('Termux 초기 설정이 완료되었습니다.\n')
 
-        while True:
-            print("1. 화면분할로 설정앱을 띄우세요.\n2. '설정' 앱에서 '개발자 옵션'을 띄우세요.")
-            print("3. 무선 디버깅을 찾아 활성화하신 후 들어가주세요.\n4. '페어링 코드로 기기 페어링'을 눌러주세요.")
-            ip = input("5. termux 창을 다시 누른 후 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
-            paircode = input("'Wi-Fi 페어링 코드'라고 적힌 부분의 아래 6자리 숫자를 입력해주세요.\n")
-            if input('위의 설정을 완료하셨습니까? (y/n) ') in ['y', 'Y', 'yes', 'Yes', 'YES']:
-                t.Popen(f'{adb} pair {ip} {paircode}', shell=True).wait(timeout=None)
-                ip = input("설정창에 보이는 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
-                t.Popen(f'{adb} connect {ip}', shell=True).wait(timeout=None)
-                break
-            else:
-                print('위의 설정을 완료해주세요.')
+        onADB = t.Popen(['fakeroot', 'adb', 'devices'], stdout=t.PIPE).wait(timeout=None)
+        onADB = onADB.stdout.read().split()
+        for i in [b'List', b'of', b'devices', b'attached', b'daemon', b'not', b'running;',
+                  b'starting', b'now', b'at', b'localfilesystem:/data/data/com.termux/files/adb_socket', b'*',
+                  b'started', b'successfully']:
+            if i in onADB:
+                onADB.remove(i)
+        if len(onADB) == 0:
+            while True:
+                print("1. 화면분할로 설정앱을 띄우세요.\n2. '설정' 앱에서 '개발자 옵션'을 띄우세요.")
+                print("3. 무선 디버깅을 찾아 활성화하신 후 들어가주세요.\n4. '페어링 코드로 기기 페어링'을 눌러주세요.")
+                ip = input("5. termux 창을 다시 누른 후 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
+                paircode = input("'Wi-Fi 페어링 코드'라고 적힌 부분의 아래 6자리 숫자를 입력해주세요.\n")
+                if input('위의 설정을 완료하셨습니까? (y/n) ') in ['y', 'Y', 'yes', 'Yes', 'YES']:
+                    t.Popen(f'{adb} pair {ip} {paircode}', shell=True).wait(timeout=None)
+                    ip = input("설정창에 보이는 'IP 주소 및 포트'라고 적힌 부분의 아래 내용을 그대로 입력해주세요.\n")
+                    t.Popen(f'{adb} connect {ip}', shell=True).wait(timeout=None)
+                    break
+                else:
+                    print('위의 설정을 완료해주세요.')
     else:
         adb = './adb_linux'
 elif platform == 'Darwin':
