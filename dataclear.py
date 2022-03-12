@@ -63,7 +63,10 @@ for i in devices:
     theCursedOnes = {}
 
     for i in range(0, len(devices), 2):
-        device = devices[i].decode('utf-8')
+        if type(devices[i]) == bytes:
+            device = devices[i].decode('utf-8')
+        else:
+            device = devices[i]
         brand = t.Popen(
             f"{adb} -s " + device + " shell getprop ro.product.brand", shell=True, stdout=t.PIPE
         ).stdout.read().decode('utf-8').splitlines()[0]
