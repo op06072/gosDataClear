@@ -16,7 +16,7 @@ elif platform == 'Linux':
         print('Termux 초기 설정이 완료되었습니다.\n')
 
         onADB = t.check_output(['fakeroot', 'adb', 'devices'])
-        onADB = onADB.stdout.splitlines()
+        onADB = onADB.splitlines()
         if len(onADB) <= 2:
             while True:
                 print("1. 화면분할로 설정앱을 띄우세요.\n2. '설정' 앱에서 '개발자 옵션'을 띄우세요.")
