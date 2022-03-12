@@ -75,7 +75,7 @@ for i in devices:
 
     adb += ' shell'
 
-    if ver == '1':
+    if ver == 1:
         #print(f'\n선행 작업이 필요합니다. automate에서 선행작업을 완료해주세요.')
 
         #while True:
@@ -134,7 +134,7 @@ for i in devices:
                         break
 
             print('\n' + theCursedOnes[cursedOne] + '의 작업완료\n')
-    elif ver == '2':
+    elif ver == 2:
         print('\n' + theCursedOnes[cursedOne] + '의 작업시작\n')
 
         for curse in curses:
