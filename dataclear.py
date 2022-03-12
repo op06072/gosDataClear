@@ -48,7 +48,7 @@ print('3. 소프트웨어 정보에 들어갑니다.\n4. 가장 위에 있는 On
 print('\n⚠️ 상기된 안내에 따라 진행하실 수 없으신 경우 번거로우시겠지만 버전의 확인 방법을 찾아 진행해주세요. 구형기기의 경우 One UI가 탑재되지 않았을 수도 있습니다.')
 
 for i in devices:
-    ver = input('버전을 선택하세요.\n1. One UI 4.0 이상\n2. One UI 4.0 미만 혹은 One UI 미탑재 기기\n3. 종료\n>> ')
+    ver = int(input('버전을 선택하세요.\n1. One UI 4.0 이상\n2. One UI 4.0 미만 혹은 One UI 미탑재 기기\n3. 종료\n>> '))
     if ver not in [1, 2]:
         print('프로그램을 종료합니다.')
         exit()
